@@ -1,0 +1,18 @@
+---
+image: dokku/ci-docker-image
+
+stages:
+  - deploy
+
+variables:
+  GIT_DEPTH: 0
+
+deploy:
+  stage: deploy
+  only:
+    - main
+  variables:
+    GIT_REMOTE_URL: ssh://dokku@10.0.8.22:22/deers.io
+  script: dokku-deploy
+  after_script: [dokku-unlock]
+
