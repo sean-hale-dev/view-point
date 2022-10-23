@@ -1,26 +1,35 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   html {
-    color-scheme: dark;
+    @apply bg-west-red;
   }
-  body {
-    color: white;
-    background: black;
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    width: 0 !important;
+  }
+
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow: hidden;
+  }  
+
+  main {
+    @apply xl:container xl:mx-auto py-2 lg:py-4 px-4 lg:px-8 space-y-2 lg:space-y-4;
+  }
+
+  nav {
+    @apply text-west-teal flex justify-between;
+  }
+
+  h1 {
+    @apply text-west-cream text-4xl lg:text-6xl;
+  }
+
+  h2 {
+    @apply text-west-cream text-2xl lg:text-4xl;
   }
 }
