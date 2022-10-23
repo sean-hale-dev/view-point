@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Commission {
+  id               Int       @id @default(autoincrement())
+  title            String?
+  description      String?
+  dateCommissioned DateTime  @default(now())
+  dateReceived     DateTime?
+  invoice          Invoice   @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId        Int       @unique
+  price            Float
+  nsfw             Boolean
+  artistId         Int
+  artist           Entity    @relation(name: "artist", references: [id], fields: [artistId])
+  characters       Entity[]  @relation(name: "characters")
+  thumbnail        Image?    @relation(name: "thumbnail")
+  images           Image[]
+}
+
+enum EntityType {
+  ARTIST
+  CHARACTER
+}
+
+model Entity {
+  id               Int          @id @default(autoincrement())
+  name             String
+  type             EntityType
+  commissionsIn    Commission[] @relation(name: "characters")
+  commissionsDrawn Commission[] @relation(name: "artist")
+  socials          Social[]
+}
+
+enum SocialType {
+  FURAFFINITY
+  TELEGRAM
+  TWITTER
+  WEBSITE
+  CUSTOM
+}
+
+model Social {
+  id       Int        @id @default(autoincrement())
+  type     SocialType
+  value    String
+  name     String?
+  entityId Int
+  entity   Entity     @relation(fields: [entityId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+}
+
+model Invoice {
+  id         Int         @id @default(autoincrement())
+  bucketId   String
+  size       Int
+  filename   String
+  commission Commission?
+}
+
+model Alternate {
+  id           Int     @id @default(autoincrement())
+  bucketId     String
+  size         Int
+  filename     String
+  contentType  String
+  width        Int
+  height       Int
+  Image        Image   @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  imageId      Int
+  userProvided Boolean @default(false)
+}
+
+model Image {
+  id                       Int         @id @default(autoincrement())
+  name                     String
+  files                    Alternate[]
+  placeholderURI           String
+  thumbnailFor             Commission? @relation(fields: [thumbnailForCommissionID], references: [id], name: "thumbnail", onDelete: Cascade)
+  thumbnailForCommissionID Int?        @unique
+  belongsToCommission      Commission? @relation(fields: [belongsToCommissionID], references: [id], onDelete: Cascade)
+  belongsToCommissionID    Int? 
+}
