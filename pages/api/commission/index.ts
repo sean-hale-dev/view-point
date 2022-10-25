@@ -21,7 +21,7 @@ const get_handler = async (_req: NextApiRequest, res: NextApiResponse) => {
 const post_handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await isAuthenticated(req, res);
 
-  const { reqFields, suppFields, invoice, images } = await new Promise<{reqFields: RequiredFields, suppFields: Partial<SupplimentalFields>, invoice: FileData, images: ImageData[]}>((resolve) => {
+  const { reqFields, suppFields, invoice, images } = await new Promise<{reqFields: RequiredFields, suppFields: Partial<SupplimentalFields>, invoice: FileData, images: ImageData[]}>((resolve, reject) => {
     const form = new IncomingForm();
 
     form.parse(req, (err, fields, files) => {
@@ -30,11 +30,15 @@ const post_handler = async (req: NextApiRequest, res: NextApiResponse) => {
         throw err;
       }
 
-      const required_fields = parse_required_fields(fields);
-      const supplimental_fields = parse_supplimental_fields(fields);
-      const invoice = parse_invoice(files);
-      const images = parse_images(files);
-      resolve({ reqFields: required_fields, suppFields: supplimental_fields, invoice, images, });
+      try {
+        const required_fields = parse_required_fields(fields);
+        const supplimental_fields = parse_supplimental_fields(fields);
+        const invoice = parse_invoice(files);
+        const images = parse_images(files);
+        resolve({ reqFields: required_fields, suppFields: supplimental_fields, invoice, images, });
+      } catch (e) {
+        reject(e);
+      }
     });
   });
 

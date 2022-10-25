@@ -36,17 +36,17 @@ export const parse_required_fields = (fields: Fields): RequiredFields => {
   let price: number;
   let dateCommissioned: string;
 
-  if (!Array.isArray(fields.artistId)) throw makeError('user', 'Failed to parse artistID');
-  artistId = +fields.artistId[0];
+  if (Array.isArray(fields.artistId) && fields.artistId.length !== 1) throw makeError('user', 'Failed to parse artistID');
+  artistId = typeof fields.artistId === 'string' ? +fields.artistId : +fields.artistId[0];
 
-  if (!Array.isArray(fields.price)) throw makeError('user', 'Failed to parse price');
-  price = +fields.price[0]
+  if (Array.isArray(fields.price) && fields.price.length !== 1) throw makeError('user', 'Failed to parse price');
+  price = typeof fields.price === 'string' ? +fields.price : +fields.price[0];
 
-  if (!Array.isArray(fields.characterIds)) throw makeError('user', 'Failed to parse characterIds');
-  characterIds = JSON.parse(fields.characterIds[0])
+  if (Array.isArray(fields.price) && fields.price.length !== 1) throw makeError('user', 'Failed to parse characterIds');
+  characterIds = JSON.parse(typeof fields.characterIds === 'string' ? fields.characterIds : fields.characterIds[0]);
 
-  if (!Array.isArray(fields.dateCommissioned)) throw makeError('user', 'Failed to parse dateCommissioned');
-  dateCommissioned = fields.dateCommissioned[0];
+  if (Array.isArray(fields.price) && fields.price.length !== 1) throw makeError('user', 'Failed to parse dateCommissioned');
+  dateCommissioned = typeof fields.dateCommissioned === 'string' ? fields.dateCommissioned : fields.dateCommissioned[0];
 
   return {artistId, characterIds, price, dateCommissioned};
 }
@@ -55,28 +55,29 @@ export const parse_supplimental_fields = (fields: Fields): Partial<SupplimentalF
   const parsed: Partial<SupplimentalFields> = {};
 
   if (fields.title) {
-    if (!Array.isArray(fields.title)) throw makeError('user', 'Failed to parse title');
-    parsed.title = fields.title[0];
+    if (Array.isArray(fields.title) && fields.title.length !== 1) throw makeError('user', 'Failed to parse title');
+    parsed.title = typeof fields.title === 'string' ? fields.title : fields.title[0];
   }
 
   if (fields.description) {
-    if (!Array.isArray(fields.description)) throw makeError('user', 'Failed to parse description');
-    parsed.description = fields.description[0];
+    if (Array.isArray(fields.description) && fields.description.length !== 1) throw makeError('user', 'Failed to parse description');
+    parsed.description = typeof fields.description === 'string' ? fields.description : fields.description[0];
   }
 
   if (fields.thumbnailLabel) {
-    if (!Array.isArray(fields.thumbnailLabel)) throw makeError('user', 'Failed to parse thumbnailLabel');
-    parsed.thumbnailLabel = fields.thumbnailLabel[0];
+    if (Array.isArray(fields.thumbnailLabel) && fields.thumbnailLabel.length !== 1) throw makeError('user', 'Failed to parse thumbnailLabel');
+    parsed.thumbnailLabel = typeof fields.thumbnailLabel === 'string' ? fields.thumbnailLabel : fields.thumbnailLabel[0];
   }
 
   if (fields.dateReceived) {
-    if (!Array.isArray(fields.dateReceived)) throw makeError('user', 'Failed to parse dateReceived');
-    parsed.dateReceived = fields.dateReceived[0];
+    if (Array.isArray(fields.dateReceived) && fields.dateReceived.length !== 1) throw makeError('user', 'Failed to parse dateReceived');
+    parsed.dateReceived = typeof fields.dateReceived === 'string' ? fields.dateReceived : fields.dateReceived[0];
   }
 
   if (fields.nsfw) {
-    if (!Array.isArray(fields.nsfw)) throw makeError('user', 'Failed to parse nsfw');
-    parsed.nsfw = fields.nsfw[0].toLowerCase() === 'true';
+    if (Array.isArray(fields.nsfw) && fields.nsfw.length !== 1) throw makeError('user', 'Failed to parse nsfw');
+    const nsfw = typeof fields.nsfw === 'string' ? fields.nsfw : fields.nsfw[0];
+    parsed.nsfw = nsfw.toLowerCase() === 'true';
   }
 
   return parsed;
@@ -85,20 +86,21 @@ export const parse_supplimental_fields = (fields: Fields): Partial<SupplimentalF
 export const parse_all_supplimental_fields = (fields: Fields): SupplimentalFields => {
   if (!fields.title || !fields.description || !fields.dateReceived || !fields.thumbnailLabel || !fields.nsfw) throw makeError('user', 'Missing required field');
 
-  if (!Array.isArray(fields.title) || fields.title.length !== 1) throw makeError('user', 'Failed to parse title')
-  const title = fields.title[0];
+  if (Array.isArray(fields.title) && fields.title.length !== 1) throw makeError('user', 'Failed to parse title')
+  const title = typeof fields.title !== 'string' ? fields.title[0] : fields.title;
 
-  if (!Array.isArray(fields.description) || fields.description.length !== 1) throw makeError('user', 'Failed to parse description')
-  const description = fields.description[0];
+  if (Array.isArray(fields.description) && fields.description.length !== 1) throw makeError('user', 'Failed to parse description')
+  const description = typeof fields.description !== 'string' ? fields.description[0] : fields.description;
 
-  if (!Array.isArray(fields.dateReceived) || fields.dateReceived.length !== 1) throw makeError('user', 'Failed to parse dateReceived')
-  const dateReceived = fields.dateReceived[0];
+  if (Array.isArray(fields.dateReceived) && fields.dateReceived.length !== 1) throw makeError('user', 'Failed to parse dateReceived')
+  const dateReceived = typeof fields.dateReceived !== 'string' ? fields.dateReceived[0] : fields.dateReceived;
 
-  if (!Array.isArray(fields.nsfw) || fields.nsfw.length !== 1) throw makeError('user', 'Failed to parse nsfw')
-  const nsfw = fields.nsfw[0].toLowerCase() === 'true';
+  if (Array.isArray(fields.nsfw) && fields.nsfw.length !== 1) throw makeError('user', 'Failed to parse nsfw')
+  const nsfwStr = typeof fields.nsfw !== 'string' ? fields.nsfw[0] : fields.nsfw;
+  const nsfw = nsfwStr.toLowerCase() === 'true';
 
-  if (!Array.isArray(fields.thumbnailLabel) || fields.thumbnailLabel.length !== 1) throw makeError('user', 'Failed to parse thumbnailLabel')
-  const thumbnailLabel = fields.thumbnailLabel[0];
+  if (Array.isArray(fields.thumbnailLabel) && fields.thumbnailLabel.length !== 1) throw makeError('user', 'Failed to parse thumbnailLabel')
+  const thumbnailLabel = typeof fields.thumbnailLabel !== 'string' ? fields.thumbnailLabel[0] : fields.thumbnailLabel;
 
   return { title, description, dateReceived, nsfw, thumbnailLabel, }
 }
