@@ -44,7 +44,7 @@ const put_handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const id = read_id(req);
 
-  const { suppFields, images } = await new Promise<{suppFields: SupplimentalFields, images: ImageData[]}>((resolve) => {
+  const { suppFields, images } = await new Promise<{suppFields: SupplimentalFields, images: ImageData[]}>((resolve, reject) => {
     const form = new IncomingForm();
     form.parse(req, (err, fields, files) => {
       if (err) {
@@ -52,9 +52,13 @@ const put_handler = async (req: NextApiRequest, res: NextApiResponse) => {
         throw err;
       }
 
-      const suppFields = parse_all_supplimental_fields(fields);
-      const images = parse_images(files);
-      resolve({ suppFields, images });
+      try {
+        const suppFields = parse_all_supplimental_fields(fields);
+        const images = parse_images(files);
+        resolve({ suppFields, images });
+      } catch (e) {
+        reject(e);
+      }
     });
   });
 
