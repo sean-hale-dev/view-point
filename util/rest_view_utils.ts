@@ -119,9 +119,9 @@ export const parse_file = (file: File): FileData => {
 
 export const parse_invoice = (files: Files): FileData => {
   if (!Object.keys(files).includes('invoice')) throw makeError('user', 'Must provide invoice');
-  if (!Array.isArray(files.invoice) || files.invoice.length > 1) throw makeError('user', 'Must provide only 1 invoice');
+  if (Array.isArray(files.invoice) && files.invoice.length > 1) throw makeError('user', 'Must provide only 1 invoice');
 
-  const invoice = files.invoice[0];
+  const invoice = Array.isArray(files.invoice) ? files.invoice[0] : files.invoice;
 
   return parse_file(invoice);
 }
