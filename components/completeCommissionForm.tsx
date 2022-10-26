@@ -38,7 +38,12 @@ const CompleteCommissionForm = withFormik<CompleteCommissionFormProps, CompleteC
     formData.set('dateReceived', values.dateReceived);
     formData.set('nsfw', values.nsfw ? 'true' : 'false');
     formData.set('thumbnailLabel', values.thumbnailLabel);
-    values.images.forEach(i => i.files.forEach(alt => formData.append(i.name, alt)));
+
+    values.images.forEach((img) => {
+      img.files.forEach((file, idx) => {
+        formData.set(`${img.name}.${idx}`, file)
+      })
+    })
 
     try {
       await props.completeCommission(formData);
