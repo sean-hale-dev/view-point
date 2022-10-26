@@ -30,7 +30,7 @@ const PendingCommissionCard: FC<{commission: ExtendedCommission}> = ({ commissio
   );
 };
 
-const CompletedCommissionCard: FC<{commission: ExtendedCommission, showNSFW: boolean, isBig: boolean}> = ({ commission, showNSFW, isBig }) => {
+const CompletedCommissionCard: FC<{commission: ExtendedCommission, showNSFW: boolean, isBig: boolean}> = ({ commission, showNSFW }) => {
   if (!commission.thumbnail || commission.thumbnail.files.length === 0) {
     throw new Error('Attempting to render thumbnail of incomplete commission');
   }
@@ -39,11 +39,7 @@ const CompletedCommissionCard: FC<{commission: ExtendedCommission, showNSFW: boo
   const aspectRatio = getAspectRatio(smallest_alt.width, smallest_alt.height);
   const { height, width } = getDimensions(aspectRatio, targetHeight);
 
-  const classes = classNames('fit flex flex-col items-center space-y-2 justify-center bg-west-brown text-west-cream pb-2 border-2 hover:cursor-pointer border-transparent hover:border-west-cream',
-    {
-      'md:col-span-2': isBig,
-    }
-  );
+  const classes = classNames('fit flex flex-col items-center space-y-2 justify-center bg-west-brown text-west-cream pb-2 border-2 hover:cursor-pointer border-transparent hover:border-west-cream');
 
   return (
     !showNSFW && commission.nsfw ? null :
