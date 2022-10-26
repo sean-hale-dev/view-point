@@ -130,14 +130,28 @@ export const parse_images = (files: Files): ImageData[] => {
   const file_labels = Object.keys(files);
   const image_labels = file_labels.filter(label => label.toLowerCase() !== 'invoice');
 
-  return image_labels.map((label) => {
-    const associated_files = files[label];
-    const file_info = Array.isArray(associated_files) ? associated_files.map(f => parse_file(f)) : [parse_file(associated_files)] ;
+  const images: Record<string, FileData[]> = {};
+  image_labels.forEach((label) => {
+    if (Array.isArray(files[label])) throw makeError('user', 'File array detected!');
 
-    return {
-      name: label,
-      alternates: file_info
+    const label_split = label.split('.');
+    if (label_split.length < 2) throw makeError('user', 'Invalid image name provided');
+
+    const image_label = label_split.slice(0, label_split.length - 1).join();
+    const file_info = parse_file(files[label] as File);
+
+    if (image_label in images) {
+      images[image_label].push(file_info);
+    } else {
+      images[image_label] = [file_info];
     }
   })
+
+  return Object.keys(images).map((label) => {
+    return {
+      name: label,
+      alternates: images[label],
+    }
+  }) 
 }
 
