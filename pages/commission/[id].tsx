@@ -279,7 +279,7 @@ const CompleteCommissionPage: FC<CompleteCommissionDisplayProps> = ({ commission
 
           {
             commission.images.length > 1 &&
-            <div>
+            <div className="space-y-2 lg:space-y-4">
               <h2 className='underline'>Alternates</h2>
               <div className='flex gap-2 lg:gap-4'>
                 {
