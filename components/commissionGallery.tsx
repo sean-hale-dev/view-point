@@ -45,7 +45,7 @@ const CompletedCommissionCard: FC<{commission: ExtendedCommission, showNSFW: boo
     !showNSFW && commission.nsfw ? null :
       <Link href={`/commission/${commission.id}`}>
         <figure className={classes}>
-          <HostedImage src={smallest_alt.bucketId} width={width} height={height} placeholder='blur' blurDataURL={commission.thumbnail.placeholderURI} />
+          <HostedImage src={smallest_alt.bucketId} width={width} height={height} placeholder='blur' blurDataURL={commission.thumbnail.placeholderURI} alt={commission.title!} />
           <figcaption>{commission.title}</figcaption>
         </figure>
       </Link>

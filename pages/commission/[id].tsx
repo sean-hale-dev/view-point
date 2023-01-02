@@ -238,8 +238,8 @@ const CompleteCommissionPage: FC<CompleteCommissionDisplayProps> = ({ commission
       <section className='flex flex-col xl:flex-row gap-2 xl:gap-4 items-center xl:items-start'>
         <figure className={figureClasses}>
           <HostedImage src={displayFile.bucketId} width={displayFile.width} height={displayFile.height} quality={80} placeholder='blur' blurDataURL={displayImage.placeholderURI} alt={commission.title!} layout='responsive' />
-        </figure>
 
+        </figure>
         <section className='space-y-2 lg:space-y-4 w-full lg:w-2/5'>
           <div>
             <h2 className='underline'>Information</h2>
@@ -286,7 +286,7 @@ const CompleteCommissionPage: FC<CompleteCommissionDisplayProps> = ({ commission
                   commission.images.map(i => {
                     const selected_file = i.files.sort((f1, f2) => f1.width - f2.width)[0];
                     return <div key={`altkey${selected_file.id}`} className='w-24' onClick={() => setDisplayLabel(i.name)}>
-                      <HostedImage src={selected_file.bucketId} width={selected_file.width} height={selected_file.height} quality={25} />
+                      <HostedImage src={selected_file.bucketId} width={selected_file.width} height={selected_file.height} quality={25} alt="commission alternate image" />
                     </div>;
                   })
                 }

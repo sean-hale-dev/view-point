@@ -9,7 +9,6 @@ const HostedImage: FC<ImageProps> = (props) => {
   return (
     <Image
       loader={customLoader}
-      alt={props.alt}
       {...props}
     />
   );
