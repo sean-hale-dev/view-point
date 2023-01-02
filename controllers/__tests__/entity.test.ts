@@ -99,7 +99,7 @@ describe('entity controller', () => {
 
     test('non-existant entity', () => {
       const spy = jest.spyOn(prisma.entity, 'findUnique');
-      spy.mockRejectedValueOnce(new PrismaClientKnownRequestError('', 'P2001', ''));
+      spy.mockRejectedValueOnce(new PrismaClientKnownRequestError('', {code: 'P2001', clientVersion: ''}));
 
       expect.assertions(1);
       return expect(getEntity(1)).rejects.toEqual(makeError('user', 'Could not find entity'));
@@ -152,14 +152,14 @@ describe('entity controller', () => {
 
     test('non-existant entity', () => {
       const spy = jest.spyOn(prisma.entity, 'delete');
-      spy.mockRejectedValueOnce(new PrismaClientKnownRequestError('', 'P2001', ''));
+      spy.mockRejectedValueOnce(new PrismaClientKnownRequestError('', {code: 'P2001', clientVersion: ''}));
       expect.assertions(1);
       return expect(deleteEntity(1)).rejects.toEqual(makeError('user', 'Could not find entity'));
     })
 
     test('entity has associated commissions', () => {
       const spy = jest.spyOn(prisma.entity, 'delete');
-      spy.mockRejectedValueOnce(new PrismaClientKnownRequestError('', 'P2003', ''));
+      spy.mockRejectedValueOnce(new PrismaClientKnownRequestError('', {code: 'P2003', clientVersion: ''}));
       expect.assertions(1);
       return expect(deleteEntity(1)).rejects.toEqual(makeError('user', 'Entity has commissions associated with it'));
     })
