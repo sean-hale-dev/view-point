@@ -72,7 +72,7 @@ describe('commission controller', () => {
       const file_spy = jest.spyOn(MinioTools, 'store_file');
       const stream_spy = jest.spyOn(MinioTools, 'store_stream');
 
-      p_spy.mockRejectedValueOnce(new PrismaClientKnownRequestError('', 'P2001', ''));
+      p_spy.mockRejectedValueOnce(new PrismaClientKnownRequestError('', {code: 'P2001', clientVersion: ''}));
       file_spy.mockResolvedValue('identifier');
       stream_spy.mockResolvedValue('identifier')
 
@@ -254,7 +254,7 @@ describe('commission controller', () => {
       const file_spy = jest.spyOn(MinioTools, 'store_file');
       const stream_spy = jest.spyOn(MinioTools, 'store_stream');
       expect.assertions(1);
-      p_spy.mockRejectedValueOnce(new PrismaClientKnownRequestError('', 'P2001', ''));
+      p_spy.mockRejectedValueOnce(new PrismaClientKnownRequestError('', {code: 'P2001', clientVersion: ''}));
       file_spy.mockResolvedValue('identifier')
       stream_spy.mockResolvedValue('identifier')
 
@@ -289,7 +289,7 @@ describe('commission controller', () => {
     })
 
     test('could not find commission', () => {
-      jest.spyOn(prisma.commission, 'delete').mockRejectedValueOnce(new PrismaClientKnownRequestError('', 'P2001', ''));
+      jest.spyOn(prisma.commission, 'delete').mockRejectedValueOnce(new PrismaClientKnownRequestError('', {code: 'P2001', clientVersion: ''}));
       expect.assertions(1);
       return expect(deleteCommission(1)).rejects.toEqual(makeError('user', 'Could not find commission to delete'));
     })
@@ -321,7 +321,7 @@ describe('commission controller', () => {
     })
 
     test('could not find commission', () => {
-      jest.spyOn(prisma.commission, 'findUnique').mockRejectedValueOnce(new PrismaClientKnownRequestError('', 'P2001', ''));
+      jest.spyOn(prisma.commission, 'findUnique').mockRejectedValueOnce(new PrismaClientKnownRequestError('', {code: 'P2001', clientVersion: ''}));
       expect.assertions(1);
       return expect(getCommission(1)).rejects.toEqual(makeError('user', 'Could not find commission'));
     })
@@ -365,7 +365,7 @@ describe('commission controller', () => {
     })
 
     test('could not find commission', () => {
-      jest.spyOn(prisma.commission, 'update').mockRejectedValueOnce(new PrismaClientKnownRequestError('', 'P2001', ''));
+      jest.spyOn(prisma.commission, 'update').mockRejectedValueOnce(new PrismaClientKnownRequestError('', {code: 'P2001', clientVersion: ''}));
       expect.assertions(1);
       return expect(updateCommission(1, supplimental_arguments)).rejects.toEqual(makeError('user', 'Could not find commission to update'));
     })
