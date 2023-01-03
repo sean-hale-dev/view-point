@@ -2,8 +2,6 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { GlobalStateContext } from '../hooks/useGlobalState';
 import { useEffect, useState } from 'react';
-import SegFaultHandler from 'segfault-handler';
-SegFaultHandler.registerHandler('crash.log');
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [ isAuthenticated, setIsAuthenticated ] = useState(false);
