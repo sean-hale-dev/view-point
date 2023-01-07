@@ -1,5 +1,3 @@
-import SegFaultHandler from 'segfault-handler';
-SegFaultHandler.registerHandler('crash.log');
 import { IncomingForm } from 'formidable';
 import type { NextApiRequest, NextApiResponse } from 'next/types';
 import { createCommission, getCommissions } from '../../../controllers/commission';
