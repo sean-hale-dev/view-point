@@ -29,7 +29,7 @@ const get_invoice = async (file: Readable, metadata: {size: number, contentType:
 const get_transformed_image = async (file: Readable, queryData: {width?: number, height?: number, quality?: number}, res: NextApiResponse) => {
   if (!queryData.width && !queryData.height && !queryData.quality) throw makeError('user', 'Must provide at least one of: width, height, quality for transformed image');
 
-  let transformer = sharp();
+  let transformer = sharp({ pages: -1 });
   if (queryData.width || queryData.height) {
     logger.debug('File - dimensional transformation provided');
     transformer = transformer.resize(queryData.width, queryData.height);
