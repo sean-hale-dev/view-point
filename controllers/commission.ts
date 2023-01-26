@@ -184,7 +184,7 @@ const computeThumbnail = async (smallestAlternate: HydratedAlternate): Promise<H
   }
 
   try {
-    const thumbnailBuffer = await sharp(smallestAlternate.filepath).resize({ width, height }).toBuffer();
+    const thumbnailBuffer = await sharp(smallestAlternate.filepath, { pages: -1 }).resize({ width, height }).toBuffer();
     const thumbnailMetadata = await sharp(thumbnailBuffer).metadata();
 
     if (!thumbnailMetadata.width || !thumbnailMetadata.height || !thumbnailMetadata.size || !thumbnailMetadata.format) {
