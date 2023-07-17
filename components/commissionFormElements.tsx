@@ -70,7 +70,7 @@ export type AddCommissionFormType = AddCommissionFormProps & FormikProps<AddComm
 const fieldClasses = 'bg-west-brown accent-west-cream text-west-cream p-2 rounded border-2 w-full';
 
 export const CustomErrorMessage: FC<{ name: string }> = ({ name }) => <ErrorMessage name={name} component='p' className='text-red-600' />;
-export const APIErrorMessage: FC = () => <ErrorMessage name='api' render={(msg) => (<div className='w-full rounded bg-red-200 border-2 border-red-600 text-center text-red-600 p-2'> <p>API Error: {msg}</p> </div>)} />;
+export const APIErrorMessage: FC = () => <ErrorMessage name='api' render={(msg: string) => (<div className='w-full rounded bg-red-200 border-2 border-red-600 text-center text-red-600 p-2'> <p>API Error: {msg}</p> </div>)} />;
 
 interface CustomSelectProps<T> {
   onChange: (a: T) => void;
