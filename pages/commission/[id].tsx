@@ -101,7 +101,7 @@ const EntityDisplay: FC<{ artist: { name: string, id: number }, characters: { na
 
 const IncompleteCommissionPage: FC<IncompleteCommissionDisplayProps> = ({ commission, refetch, completeCommission, deleteCommission }) => {
   const { auth } = useGlobalState();
-  const [ completeCommissionOpen, setCompleteCommissionOpen ] = useState(false);
+  const [completeCommissionOpen, setCompleteCommissionOpen] = useState(false);
 
   const { artist, dateCommissioned, invoice, price, characters } = commission;
   const dateCommissionedStr = `${dateCommissioned.getMonth() + 1}/${dateCommissioned.getDate()}/${dateCommissioned.getFullYear()}`;
@@ -157,7 +157,7 @@ const IncompleteCommissionPage: FC<IncompleteCommissionDisplayProps> = ({ commis
 
 const displayByteSize = (inputBytes: number): string => {
   let bytes = inputBytes;
-  const valid_suffixes = [ 'B', 'KB', 'MB', 'GB' ];
+  const valid_suffixes = ['B', 'KB', 'MB', 'GB'];
   let suffixIdx = 0;
 
   while (bytes > 1024 && suffixIdx < valid_suffixes.length) {
@@ -170,8 +170,8 @@ const displayByteSize = (inputBytes: number): string => {
 
 const CompleteCommissionPage: FC<CompleteCommissionDisplayProps> = ({ commission, refetch, deleteCommission, updateCommission }) => {
   const { auth } = useGlobalState();
-  const [ displayLabel, setDisplayLabel ] = useState<string>('primary');
-  const [ editCommissionOpen, setEditCommissionOpen ] = useState(false);
+  const [displayLabel, setDisplayLabel] = useState<string>('primary');
+  const [editCommissionOpen, setEditCommissionOpen] = useState(false);
 
   const { displayImage, displayFile, displayResolutions } = useMemo(() => {
     if (commission.images.length === 0) throw new Error('Something has gone very wrong');
@@ -184,7 +184,7 @@ const CompleteCommissionPage: FC<CompleteCommissionDisplayProps> = ({ commission
       displayFile: display!.files.filter(f => f.userProvided).sort((f1, f2) => f1.size - f2.size)[0],
       displayResolutions: resolutions
     };
-  }, [ commission, displayLabel ]);
+  }, [commission, displayLabel]);
 
   const figureClasses = classNames('w-full', {
     'xl:w-4/5': displayFile.width > displayFile.height,
@@ -195,7 +195,7 @@ const CompleteCommissionPage: FC<CompleteCommissionDisplayProps> = ({ commission
     <main>
       <Head>
         <title>{commission.title}</title>
-        
+
         {/* OpenGraph meta cards */}
         <meta prefix='og: http://ogp.me/ns#' />
         <meta property='og:title' content={commission.title!} />
@@ -208,6 +208,8 @@ const CompleteCommissionPage: FC<CompleteCommissionDisplayProps> = ({ commission
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:site' content='walkingcoatrack' />
         <meta name='twitter:image' content={`https://deers.io/api/file/${commission.images[0].files.find(f => !f.userProvided)?.bucketId ?? commission.images[0].files[0].bucketId}?width=256&quality=50`} />
+        <meta property='twitter:title' content={commission.title!} />
+        <meta property='twitter:description' content={commission.description!} />
       </Head>
 
       <CommissionNav />
@@ -270,7 +272,7 @@ const CompleteCommissionPage: FC<CompleteCommissionDisplayProps> = ({ commission
 
           <div>
             <h2 className='underline'>Selected Image</h2>
-            { commission.images.length > 1 && <span className='text-west-cream flex space-x-1'><p>Selected image is:</p><p className='italic'>{displayImage.name}</p></span> }
+            {commission.images.length > 1 && <span className='text-west-cream flex space-x-1'><p>Selected image is:</p><p className='italic'>{displayImage.name}</p></span>}
             <h3 className='text-west-cream text-lg lg:text-2xl'>Available Resolutions</h3>
             <div className='flex text-west-teal space-x-2 lg:space-x-4'>
               {displayResolutions.map(f => <Link key={`dirk${f.bucketId}`} href={`/api/file/${f.bucketId}?useRaw=true`}>{`${f.resolution} (${f.size})`}</Link>)}
