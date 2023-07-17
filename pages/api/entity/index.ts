@@ -24,7 +24,7 @@ const get_handler = async (_req: NextApiRequest, res: NextApiResponse<Response>)
 const post_handler = async (req: NextApiRequest, res: NextApiResponse<Response>) => {
   await isAuthenticated(req, res);
   const { name, type } = req.body;
-  let socials = [];
+  let socials: any[] = [];
 
   if ( !name || !type ) {
     res.status(400).json({ error: 'Missing or malformed name/type.' });

@@ -22,6 +22,7 @@ const read_id = (req: NextApiRequest) => {
 const parse_json_body = async (req: NextApiRequest) => {
   const chunks = [];
   for await (const chunk of req) {
+    //@ts-ignore
     chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
   }
   
