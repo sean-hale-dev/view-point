@@ -170,7 +170,8 @@ const displayByteSize = (inputBytes: number): string => {
 
 const CompleteCommissionPage: FC<CompleteCommissionDisplayProps> = ({ commission, refetch, deleteCommission, updateCommission }) => {
   const { auth } = useGlobalState();
-  const [displayLabel, setDisplayLabel] = useState<string>('primary');
+  const thumbnailDisplay = commission.images.find(ci => ci.thumbnailForCommissionID === commission.id) ?? commission.images[0];
+  const [displayLabel, setDisplayLabel] = useState<string>(thumbnailDisplay.name);
   const [editCommissionOpen, setEditCommissionOpen] = useState(false);
 
   const { displayImage, displayFile, displayResolutions } = useMemo(() => {
